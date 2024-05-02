@@ -39,6 +39,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
         //process log data
         let poolData = getPoolData(log);
         poolsData.push(poolData);
+        factoryPools.add(poolData.id);
       }
       if (
         log.topics[0] == poolAbi.events.Swap.topic &&
@@ -90,7 +91,6 @@ async function savePools(ctx: Context, poolsData: PoolData[]) {
       token1: data.token1,
     });
     pools.push(pool);
-    factoryPools.add(data.id);
   }
   await ctx.store.save(pools);
 }
